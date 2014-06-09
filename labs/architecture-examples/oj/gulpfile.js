@@ -4,7 +4,6 @@ var bower = require('gulp-bower');
 var gulpBowerFiles = require('gulp-bower-files');
 var print = require('gulp-print');
 var colors = require('colors');
-var path = require('path');
 
 gulp.task('bower-install', function() {
   return bower();
