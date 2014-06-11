@@ -2,7 +2,7 @@
   "name": "todomvc-oj",
   "version": "0.0.0",
   "dependencies": {
-    "ojs": "~0.4.5",
+    "ojs": "~0.4.7",
     "todomvc-common": "~0.1.4"
   },
   "devDependencies": {

@@ -9,6 +9,7 @@ var bowerdepTestOpts = { exclude: ['require'], devDependencies: true };
 
 
 var paths = {
+  rootDir: '.',
   testDir: 'test/'
 }
 
@@ -22,7 +23,13 @@ gulp.task('bower-install', function() {
   return bower();
 });
 
-gulp.task('bower', ['bower-install'], function() {
+gulp.task('generate', ['bower-install'], function() {
+
+  gulp.src(files.index)
+    .pipe(inject(gulp.src(files.src, {read:false}), { addRootSlash: false }))
+    .pipe(bowerdeps({ exclude: ['require']}))
+    .pipe(gulp.dest(paths.rootDir));
+
   gulp.src(files.testIndex)
     .pipe(inject(gulp.src(files.src.concat([ '!js/app.js' ]), {read:false}), { addRootSlash: false, addPrefix: '..' }))
     .pipe(bowerdeps(bowerdepTestOpts))
@@ -43,4 +50,4 @@ gulp.task('bower', ['bower-install'], function() {
 */
 });
 
-gulp.task('default', ['bower']);
+gulp.task('default', ['generate']);

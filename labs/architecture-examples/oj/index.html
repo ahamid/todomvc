@@ -4,6 +4,11 @@
 		<meta charset="utf-8">
 		<title>OJ • TodoMVC</title>
 		<link rel="stylesheet" href="bower_components/todomvc-common/base.css">
+                <!-- bower:css -->
+                <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+                <link rel="stylesheet" href="bower_components/qunit/qunit/qunit.css" />
+                <link rel="stylesheet" href="bower_components/datatables/media/css/jquery.dataTables.css" />
+                <!-- endbower -->
 	</head>
 	<body>
 <!--
@@ -51,32 +56,37 @@
 			<% } %>
 		</script>
 
+<!-- bower:js -->
+<script src="bower_components/modernizr/modernizr.js"></script>
 <script src="bower_components/jquery/dist/jquery.js"></script>
 <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-
 <script src="bower_components/jquery-ui/ui/jquery-ui.js"></script>
 <script src="bower_components/less.js/dist/less-1.7.0.js"></script>
 <script src="bower_components/google-code-prettify/src/prettify.js"></script>
 <script src="bower_components/qunit/qunit/qunit.js"></script>
+<script src="bower_components/q/q.js"></script>
 <script src="bower_components/lodash/dist/lodash.compat.js"></script>
 <script src="bower_components/setimmediate/setImmediate.js"></script>
 <script src="bower_components/es6-promise/promise.js"></script>
+<script src="bower_components/localforage/dist/localforage.min.js"></script>
+<script src="bower_components/Faker/Faker.js"></script>
+<script src="bower_components/thindom/dist/thinDOM.min.js"></script>
+<script src="bower_components/mousetrap/mousetrap.js"></script>
 <script src="bower_components/es6-shim/es6-shim.js"></script>
 <script src="bower_components/kapusta-jquery.sparkline/dist/jquery.sparkline.min.js"></script>
-<!--
-<script src="bower_components/requirejs/require.js"></script>
--->
+<script src="bower_components/jquery.easy-pie-chart/dist/jquery.easypiechart.js"></script>
 <script src="bower_components/flot/jquery.flot.js"></script>
 <script src="bower_components/datatables/media/js/jquery.dataTables.js"></script>
 <script src="bower_components/pubsub-js/src/pubsub.js"></script>
 <script src="bower_components/jquery-cookie/jquery.cookie.js"></script>
 <script src="bower_components/html5-history-api/history.js"></script>
 <script src="bower_components/jquery-validate/dist/jquery.validate.js"></script>
+<script src="bower_components/ojs/dist/OJ.min.js"></script>
 <script src="bower_components/todomvc-common/base.js"></script>
-<script src="bower_components/localforage/dist/localforage.min.js"></script>
-<script src=".bower_components/thindom/src/thinDOM.js"></script>
-<script src="bower_components/jquery.easy-pie-chart/dist/jquery.easypiechart.js"></script>
-<script src=".bower_components/ojs/dist/OJ.js"></script>
-		<script src="js/app.js"></script>
+<!-- endbower -->
+<!-- inject:js -->
+<script src="js/app.js"></script>
+<script src="js/models/todos.js"></script>
+<!-- endinject -->
 	</body>
 </html>
