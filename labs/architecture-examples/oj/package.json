@@ -12,6 +12,8 @@
     "gulp-bower": "*",
     "gulp-bower-files": "*",
     "gulp-print": "*",
-    "colors": "*"
+    "gulp-inject": "*",
+    "wiredep": "*",
+    "mocha": "*"
  }
 }

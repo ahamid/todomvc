@@ -5,6 +5,9 @@
     "ojs": "~0.4.5",
     "todomvc-common": "~0.1.4"
   },
+  "devDependencies": {
+    "chai": "*"
+  },
   "overrides": {
     "todomvc-common": {
       "main": [
