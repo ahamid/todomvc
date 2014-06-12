@@ -16,7 +16,7 @@ var paths = {
 var files = {
   index: 'index.html',
   testIndex: paths.testDir + 'index.html',
-  src: [ 'js/*.js', 'js/models/*.js' ]
+  src: [ 'js/**/*.js', '!js/bb/**' ]
 };
 
 gulp.task('bower-install', function() {
