@@ -13,6 +13,8 @@
     "gulp-bower-files": "*",
     "gulp-print": "*",
     "gulp-inject": "*",
+    "gulp-jshint": "*",
+    "jshint-stylish": "*",
     "wiredep": "*",
     "mocha": "*"
  }

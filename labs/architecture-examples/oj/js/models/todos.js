@@ -1,20 +1,14 @@
-/*global $ */
-/*jshint unused:false */
-
 var app = app || {};
 
-'use strict';
-
 (function() {
+  /*jshint validthis:true */
+  'use strict';
+
   var Todos = app.Todos = function (name) {
     this.name = name || 'todomvc-oj';
     var store = localStorage[this.name];
     loadIndex.call(this, (store && store.split(',')) || []);
   };
-
-  function parseItemIndex(key) {
-    return
-  }
 
   function loadIndex(index) {
     this.index = index;

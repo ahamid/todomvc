@@ -4,9 +4,9 @@ var bower = require('gulp-bower');
 var gulpBowerFiles = require('gulp-bower-files');
 var print = require('gulp-print');
 var inject = require('gulp-inject');
+var jshint = require('gulp-jshint');
 var bowerdeps = require("wiredep").stream;
 var bowerdepTestOpts = { exclude: ['require'], devDependencies: true };
-
 
 var paths = {
   rootDir: '.',
@@ -23,7 +23,7 @@ gulp.task('bower-install', function() {
   return bower();
 });
 
-gulp.task('generate', ['bower-install'], function() {
+gulp.task('generate', function() {
 
   gulp.src(files.index)
     .pipe(inject(gulp.src(files.src, {read:false}), { addRootSlash: false }))
@@ -50,4 +50,10 @@ gulp.task('generate', ['bower-install'], function() {
 */
 });
 
-gulp.task('default', ['generate']);
+gulp.task('lint', function() {
+  return gulp.src(files.src)
+    .pipe(jshint())
+    .pipe(jshint.reporter('jshint-stylish'));
+});
+
+gulp.task('default', ['bower-install', 'generate']);
