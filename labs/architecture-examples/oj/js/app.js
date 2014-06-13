@@ -9,9 +9,15 @@ $(function () {
 	'use strict';
 
   var todoapp, info;
-  if (!OJ.body.make) {
-    OJ.nodes.div();
+
+  function initOJ() {
+    if (!OJ.body.make) {
+      OJ.nodes.div();
+    }
   }
+
+  initOJ();
+
   todoapp = OJ.body.make('todoapp', { props: { id: 'todoapp' } });
 
   info = OJ.body.make('infofooter', { props: { id: 'info' } });

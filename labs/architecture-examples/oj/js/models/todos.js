@@ -27,8 +27,30 @@ var app = app || {};
   Todos.prototype.add = function(obj) {
     var key = this.name + '-' + nextId.call(this);
     this.index.unshift(key);
+    obj.key = key;
     localStorage[key] = JSON.stringify(obj);
     saveIndex.call(this);
+  };
+
+  Todos.prototype.all = function() {
+    var items = [];
+    this.index.forEach(function(key) {
+      items.push(JSON.parse(localStorage[key]));
+    });
+    return items;
+  };
+
+  Todos.prototype.delete = function(obj) {
+    var idx;
+    if (!obj || !obj.key) {
+      return;
+    }
+    idx = this.index.indexOf(obj.key);
+    if (idx > -1) {
+      this.index.splice(idx, 1);
+      saveIndex.call(this);
+    }
+    localStorage.removeItem(obj.key);
   };
 
   Todos.prototype.deleteAt = function(idx) {
@@ -43,6 +65,10 @@ var app = app || {};
 
   Todos.prototype.updateAt = function(idx, obj) {
     localStorage[this.index[idx]] = JSON.stringify(obj);
+  };
+
+  Todos.prototype.update = function(obj) {
+    localStorage[obj.key] = JSON.stringify(obj);
   };
 
   Todos.prototype.size = function () {

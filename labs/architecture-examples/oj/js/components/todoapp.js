@@ -7,16 +7,16 @@
   var className = 'todoapp';
   OJ.components.members[className] = nodeName;
   OJ.components.register(className, function(options, owner) {
-    var todos, todoapp, header, newtodo, main, toggleall, footer, defaults = {
+    var todoapp, todos, header, newtodo, main, toggleall, footer, defaults = {
       props: {
       }
     };
 
-    todos = new app.Todos();
-
     OJ.extend(defaults, options, true);
     todoapp = OJ.element(nodeName, defaults.props, defaults.styles, defaults.events, defaults.text);
     OJ.nodes.factory(todoapp, owner);
+
+    todos = new app.Todos();
 
     //if (!OJ.body.make) OJ.nodes.div();
 
@@ -36,7 +36,7 @@
             todos.add(attrs);
             newtodo.val('');
 
-            newtodoitem = todoapp.todolist.make('todoitem', { item: attrs });
+            newtodoitem = todoapp.todolist.make('todoitem', { todos: todos, item: attrs });
             // move it to the top
             todoapp.todolist.prepend(newtodoitem);
             //todoapp.todolist.el.insertBefore(newtodoitem.el, todoapp.todolist.el.firstChild);
@@ -59,6 +59,11 @@
     main.make('label', { text: 'Mark all as complete', props:{'for': 'toggle-all' } });
     todoapp.todolist =  main.make('ul', { props: { id: 'todo-list' } });
     footer = todoapp.make('footer', { props: {id: 'footer'} });
+
+    todos.all().forEach(function(item) {
+      var loadeditem = todoapp.todolist.make('todoitem', { todos: todos, item: item });
+      todoapp.todolist.append(loadeditem);
+    });
 
     return todoapp;
   });

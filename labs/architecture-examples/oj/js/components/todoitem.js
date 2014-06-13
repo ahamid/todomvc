@@ -27,9 +27,19 @@
       inputprops.checked = 'checked';
     }
 
-    input = view.make('input', { props: inputprops });
+    input = view.make('input', { props: inputprops, events: {
+      click: function(e) {
+        item.completed = !item.completed;
+        options.todos.update(item);
+      }
+    }});
     view.make('label', { text: item.title });
-    destroy = view.make('button', { props: { class: 'destroy' }});
+    destroy = view.make('button', { props: { class: 'destroy' },  events: {
+      click: function(e) {
+        options.todos.delete(item);
+        todoitem.remove();
+      }
+    }});
     edit = todoitem.make('input', { props: { class: 'edit', value: item.title }});
 
     return todoitem;
