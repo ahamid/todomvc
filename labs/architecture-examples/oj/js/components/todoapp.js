@@ -1,5 +1,4 @@
-/*global $ */
-/*jshint unused:false */
+/*global app, ENTER_KEY */
 
 (function(OJ) {
   'use strict';
@@ -8,7 +7,7 @@
   var className = 'todoapp';
   OJ.components.members[className] = nodeName;
   OJ.components.register(className, function(options, owner) {
-    var todos, todoapp, header, h1, newtodo, main, toggleall, todolist, footer, defaults = {
+    var todos, todoapp, header, newtodo, main, toggleall, footer, defaults = {
       props: {
       }
     };
@@ -39,8 +38,8 @@
 
             newtodoitem = todoapp.todolist.make('todoitem', { item: attrs });
             // move it to the top
-            //todoapp.todolist.prepend(newtodoitem);
-            todoapp.todolist.el.insertBefore(newtodoitem.el, todoapp.todolist.el.firstChild);
+            todoapp.todolist.prepend(newtodoitem);
+            //todoapp.todolist.el.insertBefore(newtodoitem.el, todoapp.todolist.el.firstChild);
             // 			var view = new app.TodoView({ model: todo });
             // this.$list.append(view.render().el);
           }
@@ -53,7 +52,7 @@
         title: newtodo.val().trim(),
         completed: false
       };
-    };
+    }
 
     main = todoapp.make('section', { props: { id: 'main' } });
     toggleall = main.make('input', { props: { id: 'toggle-all', type: 'checkbox' }});
