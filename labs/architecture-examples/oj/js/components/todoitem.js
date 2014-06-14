@@ -8,7 +8,7 @@
   var className = 'todoitem';
   OJ.components.members[className] = nodeName;
   OJ.components.register(className, function(options, owner) {
-    var todoitem, view, item, input, inputprops, edit, destroy, defaults = {
+    var todoitem, view, item, input, inputprops, label, editInput, destroy, defaults = {
       props: {
       }
     };
@@ -27,20 +27,83 @@
       inputprops.checked = 'checked';
     }
 
-    input = view.make('input', { props: inputprops, events: {
-      click: function(e) {
-        item.completed = !item.completed;
-        options.todos.update(item);
+    input = view.make('input', {
+      props: inputprops,
+      events: { click: toggleCompleted }
+    });
+
+    label = view.make('label', {
+      text: item.title,
+      events: { dblclick: edit }
+    });
+
+    destroy = view.make('button', {
+      props: { class: 'destroy' },
+      events: { click: clear }
+    });
+
+    editInput = todoitem.make('input', {
+      props: { class: 'edit', value: item.title },
+      events: {
+        keypress: updateOnEnter,
+        keydown: revertOnEscape,
+        blur: close
       }
-    }});
-    view.make('label', { text: item.title });
-    destroy = view.make('button', { props: { class: 'destroy' },  events: {
-      click: function(e) {
-        options.todos.delete(item);
-        todoitem.remove();
-      }
-    }});
-    edit = todoitem.make('input', { props: { class: 'edit', value: item.title }});
+    });
+
+    function toggleCompleted() {
+      item.completed = !item.completed;
+      options.todos.update(item);
+    }
+
+    function clear() {
+      options.todos.delete(item);
+      todoitem.remove();
+    }
+
+    function edit() {
+      todoitem.addClass('editing');
+      input.el.focus();
+    }
+
+    function updateOnEnter() {
+
+    }
+
+    function revertOnEscape() {
+
+    }
+
+    function close() {
+        var value = editInput.val();
+        var trimmedValue = value.trim();
+
+        // We don't want to handle blur events from an item that is no
+        // longer being edited. Relying on the CSS class here has the
+        // benefit of us not having to maintain state in the DOM and the
+        // JavaScript logic.
+        if (!todoitem.$.hasClass('editing')) {
+          return;
+        }
+
+        if (trimmedValue) {
+          item.title = trimmedValue;
+          options.todos.update(item);
+
+          if (value !== trimmedValue) {
+            // Model values changes consisting of whitespaces only are
+            // not causing change to be triggered Therefore we've to
+            // compare untrimmed version with a trimmed one to check
+            // whether anything changed
+            // And if yes, we've to trigger change event ourselves
+            this.model.trigger('change');
+          }
+        } else {
+          clear();
+        }
+
+      todoitem.removeClass('editing');
+    }
 
     return todoitem;
   });
