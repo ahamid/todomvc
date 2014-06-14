@@ -16,8 +16,6 @@
     todoapp = OJ.element(nodeName, defaults.props, defaults.styles, defaults.events, defaults.text);
     OJ.nodes.factory(todoapp, owner);
 
-    todos = new app.Todos();
-
     //if (!OJ.body.make) OJ.nodes.div();
 
     //todoapp = OJ.body.make('section', { props: { id: 'todoapp' } });
@@ -28,15 +26,15 @@
       autofocus: 'autofocus' },
       events: {
         keypress: function(e) {
-          var newtodoitem, attrs;
+          var newtodoitem, todomodel;
           // If you hit return in the main input field, create new **Todo** model,
           // persisting it to *localStorage*.
           if (e.which === ENTER_KEY && newtodo.val().trim()) {
-            attrs = newAttributes();
-            todos.add(attrs);
+            todomodel = new app.Todo({ title: newtodo.val().trim() });
+            todomodel.save();
             newtodo.val('');
 
-            newtodoitem = todoapp.todolist.make('todoitem', { todos: todos, item: attrs });
+            newtodoitem = todoapp.todolist.make('todoitem', { item: todomodel });
             // move it to the top
             todoapp.todolist.prepend(newtodoitem);
             //todoapp.todolist.el.insertBefore(newtodoitem.el, todoapp.todolist.el.firstChild);
@@ -47,22 +45,19 @@
       }
     });
 
-    function newAttributes() {
-      return {
-        title: newtodo.val().trim(),
-        completed: false
-      };
-    }
-
     main = todoapp.make('section', { props: { id: 'main' } });
     toggleall = main.make('input', { props: { id: 'toggle-all', type: 'checkbox' }});
     main.make('label', { text: 'Mark all as complete', props:{'for': 'toggle-all' } });
     todoapp.todolist =  main.make('ul', { props: { id: 'todo-list' } });
     footer = todoapp.make('footer', { props: {id: 'footer'} });
 
-    todos.all().forEach(function(item) {
-      var loadeditem = todoapp.todolist.make('todoitem', { todos: todos, item: item });
-      todoapp.todolist.append(loadeditem);
+    app.Todo.load(function(todos) {
+      // render most recently added first
+      todos.reverse();
+      todos.forEach(function(todo) {
+        var loadeditem = todoapp.todolist.make('todoitem', { item: todo });
+        todoapp.todolist.append(loadeditem);
+      });
     });
 
     return todoapp;

@@ -2,13 +2,17 @@
   "name": "todomvc-oj",
   "version": "0.0.0",
   "dependencies": {
-    "ojs": "~0.4.7",
+    "ojs": "~0.4.8",
+    "js-model": "https://github.com/benpickles/js-model.git#v0.11.0",
     "todomvc-common": "~0.1.4"
   },
   "devDependencies": {
     "chai": "*"
   },
   "overrides": {
+    "js-model": {
+      "main": [ "dist/js-model-0.11.0.min.js" ]
+     },
     "todomvc-common": {
       "main": [
         "base.css",

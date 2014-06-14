@@ -23,7 +23,7 @@
     view = todoitem.make('div', { props: { class: 'view' } });
 
     inputprops = { class: 'toggle', type: 'checkbox' };
-    if (item.completed) {
+    if (item.attr('completed')) {
       inputprops.checked = 'checked';
     }
 
@@ -33,7 +33,7 @@
     });
 
     label = view.make('label', {
-      text: item.title,
+      text: item.attr('title'),
       events: { dblclick: edit }
     });
 
@@ -43,7 +43,7 @@
     });
 
     editInput = todoitem.make('input', {
-      props: { class: 'edit', value: item.title },
+      props: { class: 'edit', value: item.attr('title') },
       events: {
         keypress: updateOnEnter,
         keydown: revertOnEscape,
@@ -52,13 +52,12 @@
     });
 
     function toggleCompleted() {
-      item.completed = !item.completed;
-      options.todos.update(item);
+      item.attr('completed',!item.attr('completed'));
+      item.save();
     }
 
     function clear() {
-      options.todos.delete(item);
-      todoitem.remove();
+      item.destroy();
     }
 
     function edit() {
@@ -87,8 +86,8 @@
         }
 
         if (trimmedValue) {
-          item.title = trimmedValue;
-          options.todos.update(item);
+          item.attr('title', trimmedValue);
+          item.save();
 
           label.html('');
           label.text(value);
