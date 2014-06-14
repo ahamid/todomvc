@@ -31,6 +31,17 @@
       return self;
     };
 
+    ret.html = function(html) {
+      var val = void 0;
+      if (html == null) {
+        val = ret.el.innerHTML;
+      } else {
+        ret.el.innerHTML = html;
+        val = ret;
+      }
+      return val;
+    };
+
     return ret;
   };
 

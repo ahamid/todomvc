@@ -90,14 +90,8 @@
           item.title = trimmedValue;
           options.todos.update(item);
 
-          if (value !== trimmedValue) {
-            // Model values changes consisting of whitespaces only are
-            // not causing change to be triggered Therefore we've to
-            // compare untrimmed version with a trimmed one to check
-            // whether anything changed
-            // And if yes, we've to trigger change event ourselves
-            this.model.trigger('change');
-          }
+          label.html('');
+          label.text(value);
         } else {
           clear();
         }
