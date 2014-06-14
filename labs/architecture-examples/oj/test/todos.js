@@ -1,8 +1,12 @@
 describe('Todos', function(){
-  var todos = new app.Todos();
+  function newTestTodos() {
+    return new app.Todos("todos-test");
+  }
 
-  var an_item = { testAdd: "testAdd" };
-  var another_item = { testAdd2: "testAdd2" };
+  var todos = newTestTodos();
+
+  var an_item = { testAdd: "testAdd", key: "todos-test-0" };
+  var another_item = { testAdd2: "testAdd2", key: "todos-test-1" };
   function clear() {
     after(function() {
       todos.clear();
@@ -27,10 +31,10 @@ describe('Todos', function(){
       assert.equal(2, todos.size());
     });
     it('should should prepend the second added item', function() {
-      assert.deepEqual({testAdd2: "testAdd2"}, todos.itemAt(0));
+      assert.deepEqual(another_item, todos.itemAt(0));
     });
     it('should should contain the first added item', function() {
-      assert.deepEqual({testAdd: "testAdd"}, todos.itemAt(1));
+      assert.deepEqual(an_item, todos.itemAt(1));
     });
   }
 
@@ -44,7 +48,7 @@ describe('Todos', function(){
         assert.equal(1, todos.size());
       });
       it('should should allow access to the first added item by index', function() {
-        assert.deepEqual({testAdd: "testAdd"}, todos.itemAt(0));
+        assert.deepEqual(an_item, todos.itemAt(0));
       });
     });
 
@@ -100,7 +104,7 @@ describe('Todos', function(){
         });
 
         it('should should contain the second added item', function() {
-          assert.deepEqual({testAdd2: "testAdd2"}, todos.itemAt(0));
+          assert.deepEqual(another_item, todos.itemAt(0));
         });
       });
 
@@ -135,7 +139,7 @@ describe('Todos', function(){
         });
 
         it('should should contain the first added item', function() {
-          assert.deepEqual({testAdd: "testAdd"}, todos.itemAt(0));
+          assert.deepEqual(an_item, todos.itemAt(0));
         });
       });
 
@@ -158,14 +162,14 @@ describe('Todos', function(){
 
     describe("recreated Todos object", function() {
       before(function() {
-        todos = new app.Todos();
+        todos = newTestTodos();
       });
 
       behavesAsInitiallyPopulated();
 
       it("accepts new items", function() {
         todos.add({itemThree: "itemThree"});
-        assert.deepEqual({itemThree: "itemThree"}, todos.itemAt(0));
+        assert.deepEqual({itemThree: "itemThree", key: "test-todos-2"}, todos.itemAt(0));
       });
     });
 
