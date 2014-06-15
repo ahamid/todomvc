@@ -4,19 +4,8 @@
 (function(OJ) {
   'use strict';
 
-  var nodeName = 'footer';
-  var className = 'infofooter';
-  OJ.components.members[className] = nodeName;
-  OJ.components.register(className, function(options, owner) {
-    var info, header, h1, newtodo, main, toggleall, todolist, footer, defaults = {
-      props: {
-      }
-    };
-    OJ.extend(defaults, options, true);
-
-    info = OJ.element(nodeName, defaults.props, defaults.styles, defaults.events, defaults.text);
-    OJ.nodes.factory(info, owner);
-
+  app.InfoFooter = OJComponent('info', 'footer', function(info, options, owner) {
+    var header, h1, newtodo, main, toggleall, todolist, footer;
 
     info.make('p', { text: 'Double-click to edit todo '});
     info.make('p', { text: 'Written by ' })

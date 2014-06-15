@@ -4,19 +4,8 @@
 (function(OJ) {
   'use strict';
 
-  var nodeName = 'li';
-  var className = 'todoitem';
-  OJ.components.members[className] = nodeName;
-  OJ.components.register(className, function(options, owner) {
-    var todoitem, view, item, input, inputprops, label, editInput, destroy, defaults = {
-      props: {
-      }
-    };
-
-    OJ.extend(defaults, options, true);
-
-    todoitem = OJ.element(nodeName, defaults.props, defaults.styles, defaults.events, defaults.text);
-    OJ.nodes.factory(todoitem, owner);
+  app.TodoItem = OJComponent('todoitem', 'li', function(todoitem, options, owner) {
+    var view, item, input, inputprops, label, editInput, destroy;
 
     item = options.item;
 
@@ -58,6 +47,7 @@
 
     function clear() {
       item.destroy();
+      todoitem.remove();
     }
 
     function edit() {
@@ -65,12 +55,18 @@
       input.el.focus();
     }
 
-    function updateOnEnter() {
-
+    function updateOnEnter(e) {
+      if (e.which === ENTER_KEY) {
+        close();
+      }
     }
 
-    function revertOnEscape() {
-
+    function revertOnEscape(e) {
+      if (e.which === ESC_KEY) {
+        todoitem.removeClass('editing');
+        // Also reset the hidden input back to the original value.
+        editInput.val(item.get('title'));
+      }
     }
 
     function close() {

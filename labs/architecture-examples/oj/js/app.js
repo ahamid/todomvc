@@ -18,8 +18,10 @@ $(function () {
 
   initOJ();
 
-  todoapp = OJ.body.make('todoapp', { props: { id: 'todoapp' } });
+  //todoapp = OJ.body.make('todoapp', { props: { id: 'todoapp' } });
 
-  info = OJ.body.make('infofooter', { props: { id: 'info' } });
+  new app.TodoApp({ props: { id: 'todoapp' }});
+
+  info = OJ.body.make('info', { props: { id: 'info' } });
 
 });

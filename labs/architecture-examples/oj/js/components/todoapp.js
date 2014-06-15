@@ -3,22 +3,9 @@
 (function(OJ) {
   'use strict';
 
-  var nodeName = 'section';
-  var className = 'todoapp';
-  OJ.components.members[className] = nodeName;
-  OJ.components.register(className, function(options, owner) {
-    var todoapp, todos, header, newtodo, main, toggleall, footer, defaults = {
-      props: {
-      }
-    };
+  app.TodoApp = OJComponent('todoapp', 'section', function(todoapp, options, owner) {
+    var todos, header, newtodo, main, toggleall, footer;
 
-    OJ.extend(defaults, options, true);
-    todoapp = OJ.element(nodeName, defaults.props, defaults.styles, defaults.events, defaults.text);
-    OJ.nodes.factory(todoapp, owner);
-
-    //if (!OJ.body.make) OJ.nodes.div();
-
-    //todoapp = OJ.body.make('section', { props: { id: 'todoapp' } });
     (header = todoapp.make('header', { props: { id: 'header' }}))
       .make('h1', { text: 'todos' });
     newtodo = header.make('input', { props: { id: 'new-todo',
