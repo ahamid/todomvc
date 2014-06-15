@@ -11,8 +11,12 @@
       return builder ? builder(oj_el, options, owner) : oj_el;
     }
 
-    function OJComponentConstructor(options) {
-      return OJ.body.make(className, options);
+    function OJComponentConstructor(parent_el, options) {
+      if (arguments.length < 2) {
+        options = parent_el;
+        parent_el = OJ.body;
+      }
+      return parent_el.make(className, options);
     }
 
     OJComponentConstructor.prototype = {

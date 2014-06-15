@@ -42,6 +42,18 @@
       return val;
     };
 
+    ret.css = function(properties, value) {
+      if (_.isString(properties)) {
+        return ret.el.style[properties] = value;
+      } else if (_.isPlainObject(properties)) {
+        return _.forOwn(properties, function(val, key) {
+          if (val !== '') {
+            ret.el.style[key] = val;
+          }
+        });
+      }
+    };
+
     return ret;
   };
 

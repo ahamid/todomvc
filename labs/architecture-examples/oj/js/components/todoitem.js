@@ -40,6 +40,10 @@
       }
     });
 
+    item.bind('change:completed', function(model) {
+      input.el.checked = model.attr('completed');
+    });
+
     function toggleCompleted() {
       item.attr('completed',!item.attr('completed'));
       item.save();
