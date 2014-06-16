@@ -42,7 +42,19 @@
 
     item.bind('change:completed', function(model) {
       input.el.checked = model.attr('completed');
+      styleCompleted(model);
     });
+    item.bind('destroy', function(model) {
+      todoitem.remove();
+    });
+
+    function styleCompleted(model) {
+      if (model.attr('completed')) {
+        todoitem.addClass('completed');
+      } else {
+        todoitem.removeClass('completed');
+      }
+    }
 
     function toggleCompleted() {
       item.attr('completed',!item.attr('completed'));
@@ -51,7 +63,6 @@
 
     function clear() {
       item.destroy();
-      todoitem.remove();
     }
 
     function edit() {
@@ -97,6 +108,8 @@
 
       todoitem.removeClass('editing');
     }
+
+    styleCompleted(item);
 
     return todoitem;
   });

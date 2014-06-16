@@ -57,9 +57,7 @@
     app.Todo.bind('remove', update);
 
     function update() {
-      var completed = app.Todo.select(function () {
-        return this.attr('completed');
-      }).count();
+      var completed = app.Todo.completed().count();
       var remaining = app.Todo.count() - completed;
       toggleall.el.checked = !remaining;
     }

@@ -16,7 +16,10 @@
     filters.make('li').make('a', { props: { href: '#/active' }, text: 'Active' });
     filters.make('li').make('a', { props: { href: '#/completed' }, text: 'Completed' });
 
-    clear = stats.make('button', { props: { id: 'clear-completed' }});
+    clear = stats.make('button', {
+      props: { id: 'clear-completed' },
+      events: { click: clearCompleted }
+    });
     clear.hide();
 
     app.Todo.bind('add', update);
@@ -26,9 +29,7 @@
     app.Todo.bind('remove', update);
 
     function update() {
-      var completed = app.Todo.select(function () {
-        return this.attr('completed');
-      }).count();
+      var completed = app.Todo.completed().count();
       var remaining = app.Todo.count() - completed;
 
       remaining_count.el.textContent = remaining;
@@ -40,6 +41,13 @@
       } else {
         clear.hide();
       }
+    }
+
+    // Clear all completed todo items, destroying their models.
+    function clearCompleted() {
+      app.Todo.completed().each(function() {
+        this.destroy();
+      });
     }
 
     return stats;
