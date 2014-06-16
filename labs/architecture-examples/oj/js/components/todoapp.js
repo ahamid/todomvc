@@ -60,7 +60,18 @@
       var completed = app.Todo.completed().count();
       var remaining = app.Todo.count() - completed;
       toggleall.el.checked = !remaining;
+
+      if (app.Todo.count() == 0) {
+        main.hide();
+        footer.hide();
+      } else {
+        main.show();
+        footer.show();
+      }
+
     }
+
+    update();
 
     app.Todo.load(function(todos) {
       // render most recently added first
