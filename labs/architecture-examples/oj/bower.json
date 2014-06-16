@@ -4,6 +4,7 @@
   "dependencies": {
     "ojs": "~0.4.8",
     "js-model": "https://github.com/benpickles/js-model.git#v0.11.0",
+    "director": "~1.2.2",
     "todomvc-common": "~0.1.4"
   },
   "devDependencies": {
@@ -12,7 +13,10 @@
   "overrides": {
     "js-model": {
       "main": [ "dist/js-model-0.11.0.min.js" ]
-     },
+    },
+    "director": {
+      "main": [ "build/director.js" ]
+    },
     "todomvc-common": {
       "main": [
         "base.css",

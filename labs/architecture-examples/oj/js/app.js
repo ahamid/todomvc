@@ -8,8 +8,6 @@ var ESC_KEY = 27;
 $(function () {
 	'use strict';
 
-  var todoapp, info;
-
   function initOJ() {
     if (!OJ.body.make) {
       OJ.nodes.div();
@@ -18,10 +16,30 @@ $(function () {
 
   initOJ();
 
+  app.filter = app.Filter.loadFilter();
+
+  function updateFilter(name) {
+    app.filter.attr('filter', null);
+    app.filter.save();
+  }
+
+  var router = Router({
+    '/': updateFilter.bind(null, null),
+    '/active': updateFilter.bind(null, 'active'),
+    '/complete': updateFilter.bind(null, 'completed')
+  });
+
   //todoapp = OJ.body.make('todoapp', { props: { id: 'todoapp' } });
 
   new app.TodoApp({ props: { id: 'todoapp' }});
 
-  info = OJ.body.make('info', { props: { id: 'info' } });
+  var info = OJ.body.make('info', { props: { id: 'info' } });
+
+  router.configure({
+    on: function() {
+      alert("routed " + window.location);
+    }
+  })
+  router.init();
 
 });

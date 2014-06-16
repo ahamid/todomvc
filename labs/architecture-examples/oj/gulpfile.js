@@ -6,7 +6,7 @@ var print = require('gulp-print');
 var inject = require('gulp-inject');
 var jshint = require('gulp-jshint');
 var bowerdeps = require("wiredep").stream;
-var bowerdepTestOpts = { exclude: ['require'], devDependencies: true };
+var bowerdepTestOpts = { exclude: ['require','fontawesome'], devDependencies: true };
 
 var paths = {
   rootDir: '.',
@@ -27,7 +27,7 @@ gulp.task('generate', function() {
 
   gulp.src(files.index)
     .pipe(inject(gulp.src(files.src, {read:false}), { addRootSlash: false }))
-    .pipe(bowerdeps({ exclude: ['require']}))
+    .pipe(bowerdeps({ exclude: ['require', 'fontawesome' ]}))
     .pipe(gulp.dest(paths.rootDir));
 
   gulp.src(files.testIndex)
@@ -56,4 +56,4 @@ gulp.task('lint', function() {
     .pipe(jshint.reporter('jshint-stylish'));
 });
 
-gulp.task('default', ['bower-install', 'generate']);
+gulp.task('default', ['generate']);

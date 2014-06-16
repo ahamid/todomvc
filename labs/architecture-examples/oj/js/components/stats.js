@@ -4,7 +4,7 @@
   'use strict';
 
   app.Stats = OJComponent('stats', 'footer', function (stats, options, owner) {
-    var remaining_span, remaining_count, remaining_text, clear, filters;
+    var remaining_span, remaining_count, remaining_text, clear, filters, filterLinks;
     remaining_span = stats.make('span', { props: { id: 'todo-count' } });
     remaining_count = remaining_span.make('strong');
 
@@ -12,9 +12,30 @@
     remaining_span.el.appendChild(remaining_text);
 
     filters = stats.make('ul', { props: { id: 'filters'}});
-    filters.make('li').make('a', { props: { 'class': 'selected', href: '#' }, text: 'All' });
-    filters.make('li').make('a', { props: { href: '#/active' }, text: 'Active' });
-    filters.make('li').make('a', { props: { href: '#/completed' }, text: 'Completed' });
+    filterLinks = {
+      all: filters.make('li').make('a', {
+        props: { 'class': 'selected', href: '#/' },
+        events: { click: clickFilter.bind(null, 'all') },
+        text: 'All' }),
+      active: filters.make('li').make('a', {
+        props: { href: '#/active' },
+        events: { click: clickFilter.bind(null, 'active') },
+        text: 'Active' }),
+      completed: filters.make('li').make('a', {
+        props: { href: '#/completed' },
+        events: { click: clickFilter.bind(null, 'completed') },
+        text: 'Completed' })
+    }
+
+    function clickFilter(name, e) {
+      for (var filterLinkName in filterLinks) {
+        if (filterLinkName == name) {
+          filterLinks[filterLinkName].addClass('selected');
+        } else {
+          filterLinks[filterLinkName].removeClass('selected');
+        }
+      }
+    }
 
     clear = stats.make('button', {
       props: { id: 'clear-completed' },

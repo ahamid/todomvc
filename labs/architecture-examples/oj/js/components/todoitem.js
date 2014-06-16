@@ -40,6 +40,9 @@
       }
     });
 
+    app.Filter.bind('add', filter);
+    app.filter.bind('change:filter', filter);
+
     item.bind('change:completed', function(model) {
       input.el.checked = model.attr('completed');
       styleCompleted(model);
@@ -107,6 +110,21 @@
         }
 
       todoitem.removeClass('editing');
+    }
+
+    function filter(name) {
+      var show = true;
+      if (name == 'active') {
+        show = !item.attr('completed');
+      } else if (name == 'complete') {
+        show = item.attr('completed');
+      }
+
+      if (show) {
+        todoitem.show();
+      } else {
+        todoitem.hide();
+      }
     }
 
     styleCompleted(item);
