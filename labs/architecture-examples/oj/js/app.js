@@ -19,7 +19,7 @@ $(function () {
   app.filter = app.Filter.loadFilter();
 
   function updateFilter(name) {
-    app.filter.attr('filter', null);
+    app.filter.attr('filter', name);
     app.filter.save();
   }
 
@@ -31,6 +31,12 @@ $(function () {
 
   //todoapp = OJ.body.make('todoapp', { props: { id: 'todoapp' } });
 
+  OJ.subscribe('restoreState', function(eventName, locationObj) {
+    var filter = locationObj.pageName.substr(1);
+    app.filter.attr('filter', filter);
+    app.filter.save();
+  });
+
   new app.TodoApp({ props: { id: 'todoapp' }});
 
   var info = OJ.body.make('info', { props: { id: 'info' } });
@@ -39,7 +45,13 @@ $(function () {
     on: function() {
       alert("routed " + window.location);
     }
-  })
-  router.init();
+  });
 
+  if (app.filter.attr('filter')) {
+    router.init(app.filter.attr('filter'));
+    //router.setRoute('/' + app.filter.attr('filter'));
+    //history.pushState(null, null, '/#' + app.filter.attr('filter'));
+  } else {
+    router.init();
+  }
 });

@@ -112,11 +112,12 @@
       todoitem.removeClass('editing');
     }
 
-    function filter(name) {
-      var show = true;
+    function filter(model) {
+      var show = true,
+          name = model.attr('filter');
       if (name == 'active') {
         show = !item.attr('completed');
-      } else if (name == 'complete') {
+      } else if (name == 'completed') {
         show = item.attr('completed');
       }
 

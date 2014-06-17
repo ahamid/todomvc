@@ -14,6 +14,7 @@ var app = app || {};
     this.extend({
       loadFilter: function() {
         var filter;
+        this.load();
         if (this.count() > 0) {
           return this.first();
         } else {
