@@ -16,6 +16,17 @@ $(function () {
 
   initOJ();
 
+  // HTML5-History-API breaks hashchange events, so we have to rely on OJ popstate hook
+  // https://github.com/devote/HTML5-History-API/pull/59
+  OJ.subscribe('restoreState', function(eventName, locationObj) {
+    var filter = locationObj.pageName.replace(/^\//, '');
+    updateFilter(filter);
+  });
+
+  new app.TodoApp({ props: { id: 'todoapp' }});
+
+  var info = OJ.body.make('info', { props: { id: 'info' } });
+
   app.filter = app.Filter.loadFilter();
 
   function updateFilter(name) {
@@ -23,35 +34,19 @@ $(function () {
     app.filter.save();
   }
 
-  var router = Router({
-    '/': updateFilter.bind(null, null),
-    '/active': updateFilter.bind(null, 'active'),
-    '/complete': updateFilter.bind(null, 'completed')
-  });
-
-  //todoapp = OJ.body.make('todoapp', { props: { id: 'todoapp' } });
-
-  OJ.subscribe('restoreState', function(eventName, locationObj) {
-    var filter = locationObj.pageName.substr(1);
-    app.filter.attr('filter', filter);
-    app.filter.save();
-  });
-
-  new app.TodoApp({ props: { id: 'todoapp' }});
-
-  var info = OJ.body.make('info', { props: { id: 'info' } });
-
-  router.configure({
-    on: function() {
-      alert("routed " + window.location);
-    }
-  });
-
-  if (app.filter.attr('filter')) {
-    router.init(app.filter.attr('filter'));
-    //router.setRoute('/' + app.filter.attr('filter'));
-    //history.pushState(null, null, '/#' + app.filter.attr('filter'));
-  } else {
+  function initRouter() {
+    var router = app.Router(updateFilter);
     router.init();
   }
+
+  if (window.location.hash == null || window.location.hash.match(/^(#\/?)?$/)) {
+    if (app.filter.attr('filter')) {
+      // if the default (all) view is loaded but there is a saved filter
+      // then update location and load the filter
+      window.location.hash = '#/' + app.filter.attr('filter');
+      initRouter = _.debounce(initRouter, 14);
+    }
+  }
+
+  initRouter();
 });

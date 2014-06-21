@@ -15,19 +15,22 @@
     filterLinks = {
       all: filters.make('li').make('a', {
         props: { 'class': 'selected', href: '#/' },
-        events: { click: clickFilter.bind(null, 'all') },
+        events: { click: selectedFilter.bind(null, 'all') },
         text: 'All' }),
       active: filters.make('li').make('a', {
         props: { href: '#/active' },
-        events: { click: clickFilter.bind(null, 'active') },
+        events: { click: selectedFilter.bind(null, 'active') },
         text: 'Active' }),
       completed: filters.make('li').make('a', {
         props: { href: '#/completed' },
-        events: { click: clickFilter.bind(null, 'completed') },
+        events: { click: selectedFilter.bind(null, 'completed') },
         text: 'Completed' })
     }
 
-    function clickFilter(name, e) {
+    function selectedFilter(name) {
+      if (name == '') {
+        name = 'all';
+      }
       for (var filterLinkName in filterLinks) {
         if (filterLinkName == name) {
           filterLinks[filterLinkName].addClass('selected');
@@ -48,6 +51,12 @@
       model.bind('change:completed', update);
     });
     app.Todo.bind('remove', update);
+    app.Filter.bind('add', function(added) {
+      selectedFilter(added.attr('filter'));
+    });
+    app.Filter.bindAny('change:filter', function(changed) {
+      selectedFilter(changed.attr('filter'));
+    });
 
     function update() {
       var completed = app.Todo.completed().count();

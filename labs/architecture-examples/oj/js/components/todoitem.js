@@ -41,7 +41,7 @@
     });
 
     app.Filter.bind('add', filter);
-    app.filter.bind('change:filter', filter);
+    app.Filter.bindAny('change:filter', filter);
 
     item.bind('change:completed', function(model) {
       input.el.checked = model.attr('completed');

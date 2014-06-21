@@ -22,6 +22,12 @@ var app = app || {};
           filter.save();
           return filter;
         }
+      },
+
+      bindAny: function(name, func) {
+        this.bind('add', function(model) {
+          model.bind(name, func);
+        });
       }
     })
   });

@@ -16,6 +16,12 @@ var app = app || {};
         return this.select(function () {
           return this.attr('completed');
         });
+      },
+
+      bindAny: function(name, func) {
+        this.bind('add', function(model) {
+          model.bind(name, func);
+        });
       }
     });
   });
