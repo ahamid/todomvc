@@ -31,7 +31,7 @@ gulp.task('generate', function() {
     .pipe(gulp.dest(paths.rootDir));
 
   gulp.src(files.testIndex)
-    .pipe(inject(gulp.src(files.src.concat([ '!js/app.js' ]), {read:false}), { addRootSlash: false, addPrefix: '..' }))
+    .pipe(inject(gulp.src(files.src.concat([ '!js/app.js' ]).concat(['test/**/*.js', '!test/mocha.js']), {read:false}), { addRootSlash: false, addPrefix: '..' }))
     .pipe(bowerdeps(bowerdepTestOpts))
     .pipe(gulp.dest(paths.testDir));
     //.pipe(gulp.dest('./dest'))
